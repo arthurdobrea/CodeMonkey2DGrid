@@ -66,6 +66,9 @@ namespace V_AnimationSystem {
         public void DestroySelf() {
             UnityEngine.Object.Destroy(mesh);
         }
+        public Mesh GetMesh() {
+            return mesh;
+        }
         public V_Skeleton_Anim[] GetAnims() {
             return skeletonUpdater.GetAnims();
         }

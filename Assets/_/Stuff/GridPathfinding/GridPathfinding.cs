@@ -303,6 +303,10 @@ namespace GridPathfindingSystem {
             return closest;
         }
 
+        public bool HasPath(int startX, int startY, int endX, int endY) {
+            return FindPath(startX, startY, new MapPos(endX, endY), (List<PathNode> path, MapPos finalPos) => { });
+        }
+
         public bool FindPath(int startX, int startY, MapPos finalPos, OnPathCallback callback) {
             return FindPath(startX, startY, new List<MapPos>() { finalPos }, callback);
         }
@@ -465,6 +469,10 @@ namespace GridPathfindingSystem {
         public PathRoute GetPathRoute(Vector3 start, Vector3 end) {
             List<PathNode> pathNodeList = GetPath(start, end);
             return new PathRoute(pathNodeList, worldOrigin, nodeSize, null);
+        }
+
+        public List<PathNode> GetPath(int startX, int startY, int endX, int endY) {
+            return findPath(startX, startY, endX, endY);
         }
 
         public List<PathNode> GetPath(Vector3 start, Vector3 end) {

@@ -25,6 +25,7 @@ public class FlyingBody : MonoBehaviour {
     private Vector3 flyDirection;
     private float timer;
     private float eulerZ;
+    private float spawnBloodTimer;
 
     private void Setup(Vector3 flyDirection) {
         this.flyDirection = flyDirection;
@@ -43,7 +44,12 @@ public class FlyingBody : MonoBehaviour {
         eulerZ += eulerSpeed * Time.deltaTime;
         transform.localEulerAngles = new Vector3(0, 0, eulerZ);
 
-        Blood_Handler.SpawnBlood(5, transform.position, flyDirection * -1f);
+        spawnBloodTimer -= Time.deltaTime;
+        if (spawnBloodTimer <= 0f) {
+            float spawnBloodTimerMax = .016f;
+            spawnBloodTimer = spawnBloodTimerMax;
+            Blood_Handler.SpawnBlood(5, transform.position, flyDirection * -1f);
+        }
 
         timer += Time.deltaTime;
         if (timer >= 1f) {

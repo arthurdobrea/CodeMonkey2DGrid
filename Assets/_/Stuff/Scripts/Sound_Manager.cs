@@ -311,6 +311,7 @@ public static class Sound_Manager {
 	}
 	private static AudioSource PlayClip(AudioClip clip) {
 		AudioSource src = PlayClipAtPoint(clip, Vector3.zero);
+        if (src == null) return null;
 		src.spatialBlend = 0f;
 		return src;
 	}
