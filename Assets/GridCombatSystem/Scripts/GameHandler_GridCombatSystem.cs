@@ -11,8 +11,9 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
     public static GameHandler_GridCombatSystem Instance { get; private set; }
 
     [SerializeField] private Transform cinemachineFollowTransform;
-    [SerializeField] private MovementTilemapVisual movementTilemapVisual;
+    // [SerializeField] private MovementTilemapVisual movementTilemapVisual;
     [SerializeField] private Camera cinemachineVirtualCamera;
+    [SerializeField] private Vector3 origin;
 
     private Grid<GridCombatSystem.GridObject> grid;
     private MovementTilemap movementTilemap;
@@ -23,8 +24,7 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
 
         int mapWidth = 40;
         int mapHeight = 25;
-        float cellSize = 10f;
-        Vector3 origin = new Vector3(0, 0);
+        float cellSize = 1f;
 
         grid = new Grid<GridCombatSystem.GridObject>(mapWidth, mapHeight, cellSize, origin, (Grid<GridCombatSystem.GridObject> g, int x, int y) => new GridCombatSystem.GridObject(g, x, y));
 
@@ -36,7 +36,7 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
     }
 
     private void Start() {
-        movementTilemap.SetTilemapVisual(movementTilemapVisual);
+        // movementTilemap.SetTilemapVisual(movementTilemapVisual);
         /*
         movementTilemap.SetAllTilemapSprite(MovementTilemap.TilemapObject.TilemapSprite.Move);
         grid.GetXY(new Vector3(171.5f, 128.5f), out int testX, out int testY);
@@ -62,7 +62,21 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
     }
 
     private void Update() {
-        HandleCameraMovement();
+        
+        if (Input.GetKey(KeyCode.W)){
+            int mapWidth = 40;
+            int mapHeight = 25;
+            float cellSize = 1f;
+            
+            grid = new Grid<GridCombatSystem.GridObject>(mapWidth, mapHeight, cellSize, origin, (Grid<GridCombatSystem.GridObject> g, int x, int y) => new GridCombatSystem.GridObject(g, x, y));
+
+            gridPathfinding = new GridPathfinding(origin + new Vector3(1, 1) * cellSize * .5f, new Vector3(mapWidth, mapHeight) * cellSize, cellSize);
+            gridPathfinding.RaycastWalkable();
+            //gridPathfinding.PrintMap((Vector3 vec, Vector3 size, Color color) => World_Sprite.Create(vec, size, color));
+
+            movementTilemap = new MovementTilemap(mapWidth, mapHeight, cellSize, origin);
+        }
+        // HandleCameraMovement();
     }
 
     private void HandleCameraMovement() {
